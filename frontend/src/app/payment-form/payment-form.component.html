@@ -1,0 +1,56 @@
+<div class="payment-container">
+  <div class="payment-form">
+    <h2>Payment Form</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="cardNumber">Card Number</label>
+        <input 
+          type="text" 
+          id="cardNumber" 
+          name="cardNumber" 
+          [(ngModel)]="cardNumber"
+          class="form-control"
+          placeholder="1234 5678 9012 3456"
+        >
+      </div>
+      <div class="form-group">
+        <label for="expiryDate">Expiry Date</label>
+        <input 
+          type="text" 
+          id="expiryDate" 
+          name="expiryDate" 
+          [(ngModel)]="expiryDate"
+          class="form-control"
+          placeholder="MM/YY"
+        >
+      </div>
+      <div class="form-group">
+        <label for="cvv">CVV</label>
+        <input 
+          type="text" 
+          id="cvv" 
+          name="cvv" 
+          [(ngModel)]="cvv"
+          class="form-control"
+          placeholder="123"
+        >
+      </div>
+      <button type="submit" class="btn btn-primary">Submit Payment</button>
+    </form>
+
+    <div *ngIf="result" class="result" [ngClass]="{
+      'success': result.status === 'approved',
+      'error': result.status === 'declined' || result.status === 'error'
+    }">
+      <h3>
+        <span *ngIf="result.status === 'approved'">✅ Payment Successful!</span>
+        <span *ngIf="result.status === 'declined'">❌ Payment Declined</span>
+        <span *ngIf="result.status === 'error'">⚠️ Error</span>
+      </h3>
+      <p>{{ result.message }}</p>
+      <p *ngIf="result.transaction_id" class="transaction-id">
+        Transaction ID: {{ result.transaction_id }}
+      </p>
+    </div>
+  </div>
+</div>
